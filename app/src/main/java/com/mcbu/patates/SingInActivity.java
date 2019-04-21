@@ -31,25 +31,28 @@ public class SingInActivity extends AppCompatActivity {
     signPageButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mAuthSign = FirebaseAuth.getInstance();
+            if (userEmailSignText.getText().toString().equals("") || userPassSignText.getText().toString().equals("")) {
+                Toast.makeText(SingInActivity.this, "You have to fill the blanks", Toast.LENGTH_SHORT).show();
+            } else{
+                mAuthSign = FirebaseAuth.getInstance();
             final String emailSign = userEmailSignText.getText().toString();
             final String passSign = userPassSignText.getText().toString();
-            mAuthSign.signInWithEmailAndPassword(emailSign,passSign).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuthSign.signInWithEmailAndPassword(emailSign, passSign).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         Toast.makeText(SingInActivity.this, "Sign in completed", Toast.LENGTH_SHORT).show();
-                        Intent toMainPage =new Intent(SingInActivity.this,MainPageActivity.class);
+                        Intent toMainPage = new Intent(SingInActivity.this, MainPageActivity.class);
                         startActivity(toMainPage);
                         SingInActivity.this.finish();
-                    }
-                    else{
-                        Toast.makeText(SingInActivity.this,"Sign in failed",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SingInActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
+        }
         }
     });
+
     }
 }
